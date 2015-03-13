@@ -5,29 +5,48 @@ function setBodyHeader(dateObj) {
     var header = document.getElementsByTagName('header')[0];
     header.innerHTML = "<h1>"+dateObj.getCurrentMonth+" "+dateObj.getCurrentYear+"</h1>";
 }
-function createDom(sheet) {
+function createDom() {
     var ul = document.getElementsByClassName('days')[0];
     var li_proto = ul.firstElementChild;
     var ul_parent = ul.parentElement;
-//   create 6 unordered list  and 6 li items in each
+    //create 6 unordered list  and 6 li items in each
     for(var i=0 ; i < 6 ; i++) {
         newNode = ul.cloneNode(false);
         //newNode.id='row'+i;
         for(var j = 0 ; j < 7 ; j++) {
             new_day = li_proto.cloneNode(true);
-            //add date from sheet array
-            obj = sheet.shift();
-            new_day.firstElementChild.textContent=obj.date;
-//            add other-month class for dates not in current month
-            if(!obj.currentMonth) {
-                new_day.className = new_day.className + " other-month";
-            }
+
+//            obj = sheet.shift();
+//            new_day.firstElementChild.textContent=obj.date;
+//            if(!obj.currentMonth) {
+//                new_day.className = new_day.className + " other-month";
+//            }
+
             newNode.appendChild(new_day);
         }
         ul_parent.appendChild(newNode);
     }
     ul_parent.removeChild(ul);
 }
+function clearClassNames() {
+    var nodeList = document.querySelectorAll(".other-month");
+    for(var i = 0 ; i < nodeList.length ; i++) {
+        nodeList[i].className = "day";   
+    }
+}
+function addDates(sheet) {
+    clearClassNames();
+    var nodeList = document.querySelectorAll(".date");
+    for(var i = 0 ; i < nodeList.length ; i++) {
+        //add date from sheet array
+        obj = sheet.shift();
+        nodeList[i].textContent = obj.date;
+        //add other-month class for dates not in current month
+        if(!obj.currentMonth) {
+            nodeList[i].parentNode.className = nodeList[i].parentNode.className + " other-month";
+        }
+    }
+};
 function DateObj(date) {
     if( this.constructor !== DateObj) {
         return new DateObj(date);
@@ -58,17 +77,17 @@ function DateObj(date) {
 };
 function createSheet(dateObj) {
     var sheet = [];
-//    add all dates for current month
+    //add all dates for current month
     for(var i=1; i<=dateObj.getLastDateOfCurrentMonth; i++) {
         sheet.push({date:i,currentMonth:true});
     }
-//add dates from last month if first day of current month not on sunday
+    //add dates from last month if first day of current month not on sunday
     var counter = dateObj.getLastDateOfLastMonth;
     for( var j=0 ; j < dateObj.getFirstDayOfCurrentMonth ; j++) {
         sheet.unshift({date:counter,currentMonth:false})
         counter-=1;
     }
-//add dates from next month till sheet length not equal to 42
+    //add dates from next month till sheet length not equal to 42
     counter = 1;
     while(sheet.length != 42) {
         sheet.push({date:counter,currentMonth:false});
@@ -76,19 +95,26 @@ function createSheet(dateObj) {
     }
     return sheet;
 }
-
-window.addEventListener('load', function(){
-    var dateObj = DateObj(new Date(YEAR, MONTH, DAY));
+function addDatesinDom(dateObj) {
     var sheet = createSheet(dateObj);
+//    alert(JSON.stringify(sheet));
     setBodyHeader(dateObj);
-    createDom(sheet);
-    document.querySelector('input[type=month]').addEventListener('change', function(event){
+    addDates(sheet);
+}
+window.addEventListener('load', function(){
+    createDom();
+    var dateObj = DateObj(new Date(YEAR, MONTH, DAY));
+    addDatesinDom(dateObj);
+    
+    document.querySelector('input[type=month]').addEventListener('change',          function(event){
         yearmonth = event.srcElement.value.split("-");
         year = yearmonth[0];
         //input type date returns 1 index month and date object
         //uses 0 index 
         month = yearmonth[1] - 1;
-});
+        var newDateObj = DateObj(new Date(year, month, 1));
+        addDatesinDom(newDateObj);
+    });
     //display for current month , then take month from user
 }, false);
 
