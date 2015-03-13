@@ -3,7 +3,7 @@ var MONTH = new Date().getMonth();
 var DAY = 1;
 function setBodyHeader(dateObj) {
     var header = document.getElementsByTagName('header')[0];
-    header.innerHTML = dateObj.getCurrentMonth+" "+dateObj.getCurrentYear;
+    header.innerHTML = "<h1>"+dateObj.getCurrentMonth+" "+dateObj.getCurrentYear+"</h1>";
 }
 function createDom(sheet) {
     var ul = document.getElementsByClassName('days')[0];
@@ -16,7 +16,12 @@ function createDom(sheet) {
         for(var j = 0 ; j < 7 ; j++) {
             new_day = li_proto.cloneNode(true);
             //add date from sheet array
-            new_day.firstElementChild.textContent=sheet.shift();
+            obj = sheet.shift();
+            new_day.firstElementChild.textContent=obj.date;
+//            add other-month class for dates not in current month
+            if(!obj.currentMonth) {
+                new_day.className = new_day.className + " other-month";
+            }
             newNode.appendChild(new_day);
         }
         ul_parent.appendChild(newNode);
@@ -55,28 +60,35 @@ function createSheet(dateObj) {
     var sheet = [];
 //    add all dates for current month
     for(var i=1; i<=dateObj.getLastDateOfCurrentMonth; i++) {
-        sheet.push(i);
+        sheet.push({date:i,currentMonth:true});
     }
 //add dates from last month if first day of current month not on sunday
     var counter = dateObj.getLastDateOfLastMonth;
     for( var j=0 ; j < dateObj.getFirstDayOfCurrentMonth ; j++) {
-        sheet.unshift(counter)
+        sheet.unshift({date:counter,currentMonth:false})
         counter-=1;
     }
 //add dates from next month till sheet length not equal to 42
     counter = 1;
     while(sheet.length != 42) {
-        sheet.push(counter);
+        sheet.push({date:counter,currentMonth:false});
         counter+=1;
     }
     return sheet;
-    //alert(sheet);
 }
+
 window.addEventListener('load', function(){
-    dateObj = DateObj(new Date(YEAR, MONTH, DAY));
-    sheet = createSheet(dateObj);
+    var dateObj = DateObj(new Date(YEAR, MONTH, DAY));
+    var sheet = createSheet(dateObj);
     setBodyHeader(dateObj);
     createDom(sheet);
+    document.querySelector('input[type=month]').addEventListener('change', function(event){
+        yearmonth = event.srcElement.value.split("-");
+        year = yearmonth[0];
+        //input type date returns 1 index month and date object
+        //uses 0 index 
+        month = yearmonth[1] - 1;
+});
     //display for current month , then take month from user
 }, false);
 

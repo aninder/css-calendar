@@ -1,0 +1,41 @@
+* {
+    box-sizing: border-box;
+}
+h1 {
+    font-family: 'Anonymous Pro';
+    font-size:x-large;
+}
+header {
+    margin-bottom: 10px;
+    margin-left: 10px;
+    width:20%;
+    background-color: azure;
+    float:left;
+}
+input[type="month"] {
+    float:right;
+    border:1px solid black;
+}
+#calendar {
+    clear:both;
+    width:90%;
+    margin: auto;
+}
+#weekdays li {
+    float:left;
+    width: 14.2857%;
+    color: beige;
+    background: black;
+    text-transform: capitalize;
+    text-align: center;
+}
+.day {
+    float:left;
+    width:14.2857%;
+    height: 100px;
+    background:cornsilk;
+    border: 1px solid black;
+}
+.other-month {
+    background: grey;
+}
