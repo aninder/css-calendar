@@ -1,18 +1,25 @@
 * {
     box-sizing: border-box;
 }
+body {
+    font-family: fantasy;
+}
+li {
+    list-style: none;
+}
 h1 {
-    font-family: 'Anonymous Pro';
+    font-family: fantasy;;
     font-size:x-large;
 }
 header {
     margin-bottom: 10px;
     margin-left: 10px;
     width:20%;
-    background-color: azure;
+    background-color: darksalmon;
     float:left;
 }
 input[type="month"] {
+    margin-right: 10px;
     float:right;
     border:1px solid black;
 }
@@ -21,21 +28,76 @@ input[type="month"] {
     width:90%;
     margin: auto;
 }
+/*
+#weekdays {
+    margin-bottom: 5px;
+}
+*/
 #weekdays li {
     float:left;
+    padding-top: 10px;
+    padding-bottom: 10px;
     width: 14.2857%;
     color: beige;
     background: black;
     text-transform: capitalize;
     text-align: center;
 }
-.day {
+.days li {
     float:left;
     width:14.2857%;
     height: 100px;
     background:cornsilk;
     border: 1px solid black;
 }
-.other-month {
+.days .other-month {
     background: grey;
+}
+.hidden {
+    visibility: hidden;
+}
+.date {
+    float:right;
+    padding:5px;
+    border:1px solid black;
+    border-radius:30px;
+    background:black;
+    color:azure;
+    width: 30px;
+    text-align: center;
+    margin:5px;
+}
+
+@media screen and (max-width:600px) {
+    header h1 {
+        font-size: medium;
+        font-weight: bolder
+    }
+    #calendar {
+        width:100%;
+    }
+    .hidden {
+        visibility:visible;
+        float:left;
+        padding:5px;
+    }
+    .day {
+        clear:both;
+        float:right;
+    }
+    .month {
+        font-family: cursive;
+    }
+    #weekdays li {
+        visibility: hidden;
+        position: absolute;
+    }
+   .days li {
+       float:none;
+       width:100%;
+/*       background: black;*/
+    }   
+    .date {
+/*        margin-top: 0px;*/
+    }
 }
