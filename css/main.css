@@ -6,6 +6,12 @@ body {
 }
 li {
     list-style: none;
+    float:left;
+    width:14.2857%;
+    margin-right: -1px;
+    margin-bottom: -1px;
+    padding:5px;
+
 }
 h1 {
     font-family: fantasy;;
@@ -34,21 +40,25 @@ input[type="month"] {
 }
 */
 #weekdays li {
-    float:left;
     padding-top: 10px;
     padding-bottom: 10px;
-    width: 14.2857%;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 40px;
     color: beige;
-    background: black;
+    background: #333;
     text-transform: capitalize;
     text-align: center;
+    line-height: 30px;
+    font-size: 13px;
 }
 .days li {
-    float:left;
-    width:14.2857%;
     height: 100px;
-    background:cornsilk;
+/*    background:cornsilk;*/
     border: 1px solid black;
+}
+.days li:hover {
+    background: #eee;
 }
 .days .other-month {
     background: grey;
@@ -60,7 +70,8 @@ input[type="month"] {
     float:right;
     padding:5px;
     border:1px solid black;
-    border-radius:30px;
+/*    border-radius:30px;*/
+    border-radius:50%;
     background:black;
     color:azure;
     width: 30px;
@@ -68,7 +79,7 @@ input[type="month"] {
     margin:5px;
 }
 
-@media screen and (max-width:600px) {
+@media screen and (max-width:768px) {
     header h1 {
         font-size: medium;
         font-weight: bolder
@@ -81,14 +92,14 @@ input[type="month"] {
         float:left;
         padding:5px;
     }
-    .day {
+    .dayname {
         clear:both;
         float:right;
     }
     .month {
         font-family: cursive;
     }
-    #weekdays li {
+    #weekdays {
         visibility: hidden;
         position: absolute;
     }
@@ -97,7 +108,7 @@ input[type="month"] {
        width:100%;
 /*       background: black;*/
     }   
-    .date {
-/*        margin-top: 0px;*/
+    .other-month {
+        display: none;
     }
 }
